@@ -46,6 +46,8 @@
         }else{
             $getCustomerQuery = "SELECT Password,FirstName,LastName  FROM employee WHERE Username = '$username'";
             $result = mysqli_query($conn, $getCustomerQuery);
+            session_start(); // Start the session
+            $_SESSION['UserName'] = $username;
         }
 
         if ($row = mysqli_fetch_assoc($result)) {

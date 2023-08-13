@@ -40,34 +40,36 @@
             $storeNames[] = $row['storeName'];
         }
 
-        if (isset($_POST['setting.php'])) {
+        if (isset($_POST['update'])) {
             $firstName = $_POST['first_name'];
             $middleName = $_POST['middle_name'];
             $lastName = $_POST['last_name'];
             $username = $_POST['user_name'];
             $password = $_POST['password'];
             $phone = $_POST['phone'];
-            $address = $_POST['address'];            
+            $address = $_POST['address'];
+
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
-            $insertQuery = '';
-    
-            if ($userRole == "employee") {
-                $insertQuery = "INSERT INTO employee (Password, Username, FirstName, MiddleName, LastName, EmployeePhoneNumber, EmployeeAddress) 
-                                VALUES ('$hashedPassword', '$username', '$firstName', '$middleName', '$lastName', '$phone', '$address')";
-            }
-    
-            if (mysqli_query($conn, $insertQuery)) {
+            
+            $updateQuery = "UPDATE employee SET
+                            FirstName = '$firstName',
+                            MiddleName = '$middleName',
+                            LastName = '$lastName',
+                            EmployeePhoneNumber = '$phone',
+                            EmployeeAddress = '$address',
+                            Password = '$hashedPassword'
+                            WHERE Username = '$username'";
+            
+            if (mysqli_query($conn, $updateQuery)) {
                 header("Location: setting.php");
+                exit;
             } else {
-                echo '<script>alert("Error: ' . mysqli_error($conn) . '");</script>';
+                echo '<script>alert("Error updating record: ' . mysqli_error($conn) . '");</script>';
             }
         }
+        session_start();
+        $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
 
-        $getInfo = "SELECT Password, Username, FirstName, MiddleName, LastName, EmployeePhoneNumber, EmployeeAddress FROM employee WHERE ItemDescription = 'Vegitable'";
-        $resultVegetables = mysqli_query($conn, $getVegi); 
-
-        mysqli_close($conn);
     ?>
     <div class="page-header">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
@@ -204,34 +206,60 @@
                 <div class="row justify-content-center">
                     <div class="col-xs-12 col-sm-6">
                         <h5 class="mb-3">ACCOUNT DETAILS</h5>
-                        <form action="setting.php" class="bill-detail">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" name = "first_name" placeholder="First Name" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" name = "middle_name" placeholder="Middle Name" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" name = "last_name" placeholder="Last Name" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" name = "address" placeholder="Address"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" name = "phone" placeholder="Phone Number" type="tel">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" name = "user_name" placeholder="User Name" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" name = "password" placeholder="Password" type="password">
-                                </div>
-                                <div class="form-group text-right">
-                                    <a href="#" class="btn btn-primary">UPDATE</a>
-                                    <div class="clearfix">
-                                </div>
-                            </fieldset>
+                        <form action="setting.php" class="bill-detail" method = "POST">
+                        <?php
+                            $getDetails = "SELECT EmployeePhoneNumber, EmployeeAddress, FirstName, MiddleName, LastName, UserName, Password FROM employee WHERE Username = '$UserName'";
+                            $resultDetails = mysqli_query($conn, $getDetails); 
+                            
+                            $firstName = "";
+                            $middleName = "";
+                            $lastName = "";
+                            $phone = "";
+                            $address = "";
+                            $empUsername = "";
+
+                            if ($resultDetails->num_rows > 0) {
+                                while ($row = $resultDetails->fetch_assoc()) {
+                                    $firstName = $row['FirstName'];
+                                    $middleName = $row['MiddleName'];
+                                    $lastName = $row['LastName'];
+                                    $phone = $row['EmployeePhoneNumber'];
+                                    $address = $row['EmployeeAddress'];
+                                    $empUsername = $row['UserName'];
+                                }
+                            }
+                    
+                            echo '<fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control" name="first_name" placeholder="First Name" type="text" value="' . $firstName . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="middle_name" placeholder="Middle Name" type="text" value="' . $middleName . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="last_name" placeholder="Last Name" type="text" value="' . $lastName . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="address" placeholder="Address">' . $address . '</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="phone" placeholder="Phone Number" type="tel" value="' . $phone . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="user_name" placeholder="User Name" type="text" value="' . $empUsername . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="password" placeholder="Password" type="password">
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button type="submit" name="update" class="btn btn-primary">UPDATE</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </fieldset>';
+
+
+                            mysqli_close($conn);
+                        ?>
                         </form>
                     </div>
                 </div>
