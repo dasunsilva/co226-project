@@ -64,22 +64,6 @@
                     echo '
                         <div class="collapse navbar-collapse" id="navbarcollapse">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link location-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <div class="location-img">
-                                            <img src="assets/img/location.png">
-                                            <p>Pick Store Location</p>
-                                        </div> 
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">';
-
-                        foreach ($storeNames as $storeName) {
-                            echo '<a class="dropdown-item" href="#">' . $storeName . '</a>';
-                        }
-
-                        echo '
-                                    </div>
-                                </li>
                                 <li class="nav-item">
                                     <a href="shop.php" class="nav-link">Shop</a>
                                 </li>
@@ -111,12 +95,6 @@
                             </li>
                             <li class="nav-item">
                                 <a href="shop.php" class="nav-link">Shop</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="register.php" class="nav-link">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="login.php" class="nav-link">Login</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
