@@ -20,6 +20,10 @@
 </head>
 <body>
     <?php
+    
+    $FirstName = "";
+    $LastName = "";
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $host = "localhost";
         $username = "root";
@@ -35,12 +39,15 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $getCustomerQuery = "SELECT Password FROM customer WHERE Username = '$username'";
+        $getCustomerQuery = "SELECT Password,FirstName,LastName FROM customer WHERE Username = '$username'";
         $result = mysqli_query($conn, $getCustomerQuery);
 
         if ($row = mysqli_fetch_assoc($result)) {
             $hashedPassword = $row['Password'];
             if (password_verify($password, $hashedPassword)) {
+                session_start(); // Start the session
+                $_SESSION['FirstName'] = $row['FirstName'];
+                $_SESSION['LastName'] = $row['LastName'];
                 header("Location: index.php");
             } else {
                 echo '<script>alert("Incorrect password. Please try again.");</script>';
@@ -87,7 +94,10 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="setting.php">
-                                <div class="avatar-header"><img src="assets/img/user.png"></div> John Doe
+                                <div class="avatar-header"><img src="assets/img/user.png"></div>
+                                <?php
+                                    echo '<p> '. $FirstName . ' ' . $LastName . '</p>';
+                                ?>
                             </a>
                           </li>
                         <li class="nav-item dropdown">
