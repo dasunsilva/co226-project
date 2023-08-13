@@ -107,7 +107,7 @@
                         <li class="nav-item dropdown">
                             <li class="nav-item dropdown">
                             <a class="nav-link" href="setting.php">
-                                <div class="avatar-header"><img src="assets/img/user.png"></div> John Doe
+                                <div class="avatar-header"><img src="assets/img/user.png"></div> 
                             </a>
                           </li>
                           </li>

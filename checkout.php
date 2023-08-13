@@ -56,6 +56,15 @@
 
         mysqli_close($conn);
     ?>
+	
+	<?php
+    session_start(); // Start the session
+
+    // Check if the session variables are set before using them
+    $FirstName = isset($_SESSION['FirstName']) ? $_SESSION['FirstName'] : '';
+    $LastName = isset($_SESSION['LastName']) ? $_SESSION['LastName'] : '';
+    ?>
+	
     <div class="page-header">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
@@ -91,9 +100,12 @@
                         </li>
                         <li class="nav-item dropdown">
                             <li class="nav-item dropdown">
-                            <a class="nav-link" href="setting.php">
-                                <div class="avatar-header"><img src="assets/img/user.png"></div> John Doe
-                            </a>
+                               <a class="nav-link" href="setting.php">
+                                   <div class="avatar-header"><img src="assets/img/user.png"></div>
+                                   <?php
+                                       echo '<p> '. $FirstName . ' ' . $LastName . '</p>';
+                                   ?>
+                               </a>
                           </li>
                           </li>
                         <li class="nav-item dropdown">
