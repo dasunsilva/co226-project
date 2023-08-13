@@ -46,13 +46,21 @@
         $lastName = $_POST['last_name'];
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $userRole = $_POST['user_type'];
         
-        // Hash the password using password_hash()
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert customer data into the database
-        $insertQuery = "INSERT INTO customer (Password, Username, FirstName, MiddleName, LastName) 
-                        VALUES ('$hashedPassword', '$username', '$firstName', '$middleName', '$lastName')";
+        $insertQuery = '';
+
+        if ($userRole == "customer") {
+            $insertQuery = "INSERT INTO customer (Password, Username, FirstName, MiddleName, LastName) 
+                            VALUES ('$hashedPassword', '$username', '$firstName', '$middleName', '$lastName')";
+        } elseif ($userRole == "employee") {
+            $insertQuery = "INSERT INTO employee (Password, Username, FirstName, MiddleName, LastName) 
+                            VALUES ('$hashedPassword', '$username', '$firstName', '$middleName', '$lastName')";
+        } else {
+            echo '<script>alert("Invalid user role.");</script>';
+        }
 
         if (mysqli_query($conn, $insertQuery)) {
             header("Location: login.php");
@@ -218,6 +226,16 @@
                                    <div class="col-md-12">
                                        <input class="form-control" type="password" name="confirm_password" required="" placeholder="Confirm Password">
                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                   <div class="col-md-12">
+                                        <div class="select-menu active">
+                                            <select name="user_type" class="options">
+                                                <option value="customer" class = "option-text">Customer</option>
+                                                <option value="employee" class = "option-text">Employee</option>
+                                            </select>
+                                        </div>     
+                                    </div>
                                 </div>
                                 <div class="form-group row text-center mt-4">
                                     <div class="col-md-12">

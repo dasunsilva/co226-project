@@ -40,6 +40,33 @@
             $storeNames[] = $row['storeName'];
         }
 
+        if (isset($_POST['setting.php'])) {
+            $firstName = $_POST['first_name'];
+            $middleName = $_POST['middle_name'];
+            $lastName = $_POST['last_name'];
+            $username = $_POST['user_name'];
+            $password = $_POST['password'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];            
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+            $insertQuery = '';
+    
+            if ($userRole == "employee") {
+                $insertQuery = "INSERT INTO employee (Password, Username, FirstName, MiddleName, LastName, EmployeePhoneNumber, EmployeeAddress) 
+                                VALUES ('$hashedPassword', '$username', '$firstName', '$middleName', '$lastName', '$phone', '$address')";
+            }
+    
+            if (mysqli_query($conn, $insertQuery)) {
+                header("Location: setting.php");
+            } else {
+                echo '<script>alert("Error: ' . mysqli_error($conn) . '");</script>';
+            }
+        }
+
+        $getInfo = "SELECT Password, Username, FirstName, MiddleName, LastName, EmployeePhoneNumber, EmployeeAddress FROM employee WHERE ItemDescription = 'Vegitable'";
+        $resultVegetables = mysqli_query($conn, $getVegi); 
+
         mysqli_close($conn);
     ?>
     <div class="page-header">
@@ -177,39 +204,28 @@
                 <div class="row justify-content-center">
                     <div class="col-xs-12 col-sm-6">
                         <h5 class="mb-3">ACCOUNT DETAILS</h5>
-                        <!-- Bill Detail of the Page -->
-                        <form action="#" class="bill-detail">
+                        <form action="setting.php" class="bill-detail">
                             <fieldset>
-                                <div class="form-group row">
-                                    <div class="col">
-                                        <input class="form-control" placeholder="Name" type="text">
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" placeholder="Last Name" type="text">
-                                    </div>
+                                <div class="form-group">
+                                    <input class="form-control" name = "first_name" placeholder="First Name" type="text">
                                 </div>
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Address"></textarea>
+                                    <input class="form-control" name = "middle_name" placeholder="Middle Name" type="text">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Town / City" type="text">
+                                    <input class="form-control" name = "last_name" placeholder="Last Name" type="text">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="State / Country" type="text">
+                                    <textarea class="form-control" name = "address" placeholder="Address"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Postcode / Zip" type="text">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col">
-                                        <input class="form-control" placeholder="Email Address" type="email">
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" placeholder="Phone Number" type="tel">
-                                    </div>
+                                    <input class="form-control" name = "phone" placeholder="Phone Number" type="tel">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" type="password">
+                                    <input class="form-control" name = "user_name" placeholder="User Name" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name = "password" placeholder="Password" type="password">
                                 </div>
                                 <div class="form-group text-right">
                                     <a href="#" class="btn btn-primary">UPDATE</a>

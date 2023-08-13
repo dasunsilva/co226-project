@@ -52,3 +52,4 @@ function updateCart(itemDescription, itemID, itemName, itemBrand, itemPrice, ite
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
 }
+

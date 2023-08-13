@@ -19,45 +19,6 @@
 
 </head>
 <body>
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "shopmart";
-
-        $conn = mysqli_connect($host, $username, $password, $database);
-
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $userRole = $_POST['user_type'];
-
-        if ($userRole == "customer") {
-            $getCustomerQuery = "SELECT Password FROM customer WHERE Username = '$username'";
-            $result = mysqli_query($conn, $getCustomerQuery);
-        }else{
-            $getCustomerQuery = "SELECT Password FROM employee WHERE Username = '$username'";
-            $result = mysqli_query($conn, $getCustomerQuery);
-        }
-
-        if ($row = mysqli_fetch_assoc($result)) {
-            $hashedPassword = $row['Password'];
-            if (password_verify($password, $hashedPassword)) {
-                header("Location: index.php");
-            } else {
-                echo '<script>alert("Incorrect password. Please try again.");</script>';
-            }
-        } else {
-            echo '<script>alert("Username not found. Please try again.");</script>';
-        }
-
-        mysqli_close($conn);
-    }
-    ?>
     <div class="page-header">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
@@ -68,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarcollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-link location-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link location-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="location-img">
                                     <img src="assets/img/location.png">
                                     <p>Pick Store Location</p>
@@ -92,13 +53,15 @@
                             <a href="login.php" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item dropdown">
+                            <li class="nav-item dropdown">
                             <a class="nav-link" href="setting.php">
                                 <div class="avatar-header"><img src="assets/img/user.png"></div> John Doe
                             </a>
                           </li>
+                          </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
+                                <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"></span>
                             </a>
                             <div class="dropdown-menu shopping-cart">
                                 <ul>
@@ -174,41 +137,161 @@
     </div>
     <div id="page-content" class="page-content">
         <div class="banner">
-            <div class="jumbotron jumbotron-bg text-center rounded-0 login-page" style="background-image: url('assets/img/bg-header.jpg');">
+            <div class="jumbotron jumbotron-bg text-center rounded-0 cover-img">
                 <div class="container">
                     <h1 class="pt-5">
-                        Login Page
+                        Your Transactions
                     </h1>
-                    <div class="card card-login mb-5">
-                        <div class="card-body">
-                            <form class="form-horizontal" method="POST">
-                                <div class="form-group row mt-3">
-                                    <div class="col-md-12">
-                                        <input class="form-control" type="text" name="username" required="" placeholder="Username">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <input class="form-control" type="password" name="password" required="" placeholder="Password">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <div class="select-menu active">
-                                            <select name="user_type" class="options">
-                                                    <option value="customer" class = "option-text">Customer</option>
-                                                <option value="employee" class = "option-text">Employee</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row text-center mt-4">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary btn-block text-uppercase">Log In</button>
-                                    </div>
-                                </div>
-                            </form>
+                    <p class="lead">
+                        Save time and leave the groceries to us.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section id="cart">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"></th>
+                                        <th>Invoice</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            AL121N8H2XQB47
+                                        </td>
+                                        <td>
+                                            Rp 200.000
+                                        </td>
+                                        <td>
+                                            Delivered
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#detailModal">
+                                                Detail
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Order ID : AL121N8H2XQB47</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Billing Detail:</strong><br>
+                                    Teguh Rianto<br>
+                                    Jl. Petani No. 159, Cibabat<br>
+                                    Cimahi Utara<br>
+                                    Kota Cimahi<br>
+                                    Jawa Barat 40513
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Payment Method:</strong><br>
+                                    Direct Transfer to<br>
+                                    Bank: BCA<br>
+                                    No Rek.: 72133236179
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    <strong>Your Order:</strong>
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Products</th>
+                                                <th class="text-right">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    Ikan Segar x1
+                                                </td>
+                                                <td class="text-right">
+                                                    Rp 30.000
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Sirloin x1
+                                                </td>
+                                                <td class="text-right">
+                                                    Rp 120.000
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Mix Vegetables x1
+                                                </td>
+                                                <td class="text-right">
+                                                    Rp 30.000
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfooter>
+                                            <tr>
+                                                <td>
+                                                    <strong>Cart Subtotal</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    Rp 180.000
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Shipping</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    Rp 20.000
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>ORDER TOTAL</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <strong>Rp 200.000</strong>
+                                                </td>
+                                            </tr>
+                                        </tfooter>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -225,6 +308,5 @@
     <script type="text/javascript" src="assets/packages/thumbelina/thumbelina.js"></script>
     <script type="text/javascript" src="assets/packages/bootstrap-touchspin/bootstrap-touchspin.js"></script>
     <script type="text/javascript" src="assets/js/theme.js"></script>
-    <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 </html>

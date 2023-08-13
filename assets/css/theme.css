@@ -282,9 +282,6 @@ section .card-title {
   margin-bottom: 0;
   
 }
-
-
-
 .banner .jumbotron .container {
   position: relative;
   z-index: 5;
@@ -504,4 +501,85 @@ footer .copyright {
   border-right: 0.3em solid transparent;
   border-bottom: 0;
   border-left: 0.3em solid transparent;
+}
+
+.options {
+  width: 100%;
+  overflow: auto;
+  max-height: 295px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff;
+  animation: fadeInDown 0.35s both;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  color: #495057;
+  font-family: "Oxygen", "Helvetica Neue", Arial, sans-serif;
+}
+
+ .options .option {
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+}
+
+ .options .option:hover {
+  background: #f2f2f2;
+}
+
+ .options .option .option-text {
+ 
+}
+
+.sBtn-text{
+  color: #495057;
+  font-family: "Oxygen", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.8rem;
+}
+
+.select-btn svg {
+  height: 24px;
+  width: 24px;
+  transition: 0.2s;
+}
+
+.active .select-btn svg {
+  transform: rotate(180deg);
+}
+
+.active .options {
+  display: block;
+  opacity: 0;
+  z-index: 10;
+  animation: fadeInUp 0.4s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 30px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+}
+
+@keyframes fadeInDown {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate3d(0, 20px, 0);
+    opacity: 0;
+  }
+
 }
