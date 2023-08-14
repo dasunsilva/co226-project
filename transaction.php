@@ -19,7 +19,41 @@
 
 </head>
 <body>
-    <div class="page-header">
+    <?php
+        $host = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "shopmart";
+
+        $conn = mysqli_connect($host, $username, $password, $database);
+
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $getNames = "SELECT storeName FROM store";
+        $result = mysqli_query($conn, $getNames);
+
+        $storeNames = array();
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $storeNames[] = $row['storeName'];
+        }
+
+        $selectedBill = -1;
+        $customerID = 1;
+
+        $getOrderDetails = "SELECT Order_ID, OrderDetails, SubTotal, OrderDate, Delivered FROM customer_order WHERE Customer_ID = '$customerID'";
+        $resultOrderDetails = mysqli_query($conn, $getOrderDetails);
+    
+        $getOrderDetails2 = "SELECT Order_ID, OrderDetails, SubTotal, OrderDate, Delivered FROM customer_order WHERE Customer_ID = '$customerID'";
+        $resultOrderDetails2 = mysqli_query($conn, $getOrderDetails2);
+    
+        mysqli_close($conn);
+
+        ?>
+
+        <div class="page-header">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
                 <a href="index.php" class="navbar-brand">
@@ -158,30 +192,51 @@
                                 <thead>
                                     <tr>
                                         <th width="5%"></th>
-                                        <th>Invoice</th>
+                                        <th width = "10%" style = "text-align:center;">Order ID</th>
+                                        <th width="5%"></th>
+                                        <th>Date</th>
                                         <th>Total</th>
-                                        <th>Status</th>
+                                        <th style = "paddin-left:10px;">Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            AL121N8H2XQB47
-                                        </td>
-                                        <td>
-                                            Rp 200.000
-                                        </td>
-                                        <td>
-                                            Delivered
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#detailModal">
-                                                Detail
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    if ($resultOrderDetails->num_rows > 0) {
+                                        while ($row = $resultOrderDetails->fetch_assoc()) {
+                                            $orderID = $row['Order_ID'];
+                                            $orderDetails = $row['OrderDetails'];
+                                            $subTotal = $row['SubTotal'];
+                                            $orderDate = $row['OrderDate'];
+                                            $delivered = $row['Delivered'];
+                                            
+                                            echo    
+                                                '<tr>
+                                                <td></td>
+                                                <td style = "text-align:center;">'.$orderID,'</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    '.$orderDate.'
+                                                </td>
+                                                
+                                                <td>
+                                                    Rs.'.$subTotal.'.00
+                                                </td>
+                                                <td>'
+                                                    .(!$delivered? "Pending":"Delivered").
+                                                '</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-default btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-order-details="'.htmlspecialchars($orderDetails).'" data-order-date="'.$orderDate.'" style="width:70px;">
+                                                        Detail
+                                                    </button>
+                                                </td>
+
+                                                </tr>
+                                                ';
+                                        }
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -190,112 +245,7 @@
             </div>
         </section>
 
-        <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Order ID : AL121N8H2XQB47</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>
-                                    <strong>Billing Detail:</strong><br>
-                                    Teguh Rianto<br>
-                                    Jl. Petani No. 159, Cibabat<br>
-                                    Cimahi Utara<br>
-                                    Kota Cimahi<br>
-                                    Jawa Barat 40513
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <p>
-                                    <strong>Payment Method:</strong><br>
-                                    Direct Transfer to<br>
-                                    Bank: BCA<br>
-                                    No Rek.: 72133236179
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <strong>Your Order:</strong>
-                                </p>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Products</th>
-                                                <th class="text-right">Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    Ikan Segar x1
-                                                </td>
-                                                <td class="text-right">
-                                                    Rp 30.000
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Sirloin x1
-                                                </td>
-                                                <td class="text-right">
-                                                    Rp 120.000
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Mix Vegetables x1
-                                                </td>
-                                                <td class="text-right">
-                                                    Rp 30.000
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfooter>
-                                            <tr>
-                                                <td>
-                                                    <strong>Cart Subtotal</strong>
-                                                </td>
-                                                <td class="text-right">
-                                                    Rp 180.000
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>Shipping</strong>
-                                                </td>
-                                                <td class="text-right">
-                                                    Rp 20.000
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>ORDER TOTAL</strong>
-                                                </td>
-                                                <td class="text-right">
-                                                    <strong>Rp 200.000</strong>
-                                                </td>
-                                            </tr>
-                                        </tfooter>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <script type="text/javascript" src="assets/js/jquery.js"></script>
@@ -308,5 +258,22 @@
     <script type="text/javascript" src="assets/packages/thumbelina/thumbelina.js"></script>
     <script type="text/javascript" src="assets/packages/bootstrap-touchspin/bootstrap-touchspin.js"></script>
     <script type="text/javascript" src="assets/js/theme.js"></script>
+    <script type="text/javascript" src="assets/js/transaction.js"></script>
+
+
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="detailModalLabel">Order Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="orderDetailsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
 </body>
 </html>

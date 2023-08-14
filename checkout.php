@@ -51,8 +51,88 @@
         $getCartInfo2 = "SELECT ItemPrice, ItemName, ItemBrand, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
         $resultCartInfo2 = mysqli_query($conn, $getCartInfo2);
 
+        $getCartInfo3 = "SELECT Item_ID, ItemQty, ItemName, ItemBrand, ItemPrice FROM cart WHERE Customer_ID = '$customerID'";
+        $resultCartInfo3 = mysqli_query($conn, $getCartInfo3);
+        
         $totalPrice = 0;
         $subTotal = 0;
+
+        if (isset($_POST['checkout'])) {
+
+            $firstName = $_POST['first_name'];
+            $lastName = $_POST['last_name'];
+            $address = $_POST['address'];
+            $city = $_POST['city'];
+            $state = $_POST['state'];
+            $postcode = $_POST['postcode'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $note = $_POST['note'];
+
+            $billingDetails = array(
+                "firstName" => $firstName,
+                "lastName" => $lastName,
+                "address" => $address,
+                "city" => $city,
+                "state" => $state,
+                "postcode" => $postcode,
+                "email" => $email,
+                "phone" => $phone,
+                "note" => $note,
+            );
+            
+            $orders = array(); 
+            $subTotalTemp = 0;
+            
+            if ($resultCartInfo3->num_rows > 0) {
+                while ($row = $resultCartInfo3->fetch_assoc()) {
+                    $itemID = $row['Item_ID'];
+                    $itemQty = $row['ItemQty'];
+                    $itemName = $row['ItemName'];
+                    $itemBrand = $row['ItemBrand'];
+                    $itemPrice = $row['ItemPrice'];
+            
+                    $itemTotal = $itemPrice * $itemQty;
+                    $subTotalTemp = $subTotalTemp + $itemTotal;
+            
+                    $orderDetails = array(
+                        "ItemID" => $itemID,
+                        "ItemQty" => $itemQty,
+                        "ItemName" => $itemName,
+                        "ItemBrand" => $itemBrand,
+                        "ItemPrice" => $itemPrice,
+                        "ItemTotal" => $itemTotal,
+                    );
+            
+                    $orders[] = $orderDetails;
+            
+                    $getAvailableQty = "SELECT ItemQuentityAvailable FROM grocery WHERE Item_ID = $itemID";
+                    $resultAvailableQty = mysqli_query($conn, $getAvailableQty);
+                    $availableQty = $resultAvailableQty->fetch_assoc()['ItemQuentityAvailable'];
+                    $availableQty = $availableQty - $itemQty;
+            
+                    $updateQuery = "UPDATE grocery SET ItemQuentityAvailable = '$availableQty' WHERE Item_ID = '$itemID'";
+                    mysqli_query($conn, $updateQuery);
+            
+                    $deleteQuery = "DELETE FROM cart WHERE (Item_ID = '$itemID' && Customer_ID = '$customerID')";
+                    mysqli_query($conn, $deleteQuery);
+                }
+            }
+            
+            $orderDetails = array(
+                "billing" => $billingDetails,
+                "orders" => $orders,
+                "subTotal" => $subTotalTemp,
+                "index" => count($orders),
+            );
+            $orderDetailsJSON = json_encode($orderDetails);
+            $today = date("Y-m-d");
+            $insertQuery = "INSERT INTO customer_order (Customer_ID,OrderDetails,SubTotal,OrderDate) VALUES ('$customerID','$orderDetailsJSON', '$subTotalTemp','$today')";
+            if(mysqli_query($conn, $insertQuery)){
+                header("Location: checkout.php");
+            }
+        }
+
 
         mysqli_close($conn);
     ?>
@@ -185,48 +265,46 @@
         <section id="checkout">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-7">
+                    <form id="checkoutForm" action="checkout.php" class="bill-detail" method="POST" style = "display:flex; flex-grow: 0.9; justify-content:space-between;">
+                        <div class="col-xs-12 col-sm-7">
                         <h5 class="mb-3">BILLING DETAILS</h5>
-                        <!-- Bill Detail of the Page -->
-                        <form action="#" class="bill-detail">
-                            <fieldset>
+                            <fieldset style = "width:95%;">
                                 <div class="form-group row">
                                     <div class="col">
-                                        <input class="form-control" placeholder="Name" type="text">
+                                        <input class="form-control" name = "first_name" placeholder="First Name" type="text" required>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" placeholder="Last Name" type="text">
+                                        <input class="form-control" name = "last_name" placeholder="Last Name" type="text" required>
                                     </div>
                                 </div>
                             
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Address"></textarea>
+                                    <textarea class="form-control" name = "address" placeholder="Address" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Town / City" type="text">
+                                    <input class="form-control" name = "city" placeholder="Town / City" type="text" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="State / Country" type="text">
+                                    <input class="form-control" name = "state" placeholder="State / Country" type="text" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Postcode / Zip" type="text">
+                                    <input class="form-control" name = "postcode" placeholder="Postcode / Zip" type="text" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col">
-                                        <input class="form-control" placeholder="Email Address" type="email">
+                                        <input class="form-control"name= "email" placeholder="Email Address" type="email">
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" placeholder="Phone Number" type="tel">
+                                        <input class="form-control" name = "phone" placeholder="Phone Number" type="tel" required>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Order Notes"></textarea>
+                                    <textarea class="form-control" name = "note" placeholder="Order Notes"></textarea>
                                 </div>
                             </fieldset>
-                        </form>
-                    </div>
-                    <div class="col-xs-12 col-sm-5">
+                        </div>
+                        <div class="col-xs-12 col-sm-5">
                         <div class="holder">
                             <h5 class="mb-3">YOUR ORDER</h5>
                             <div class="table-responsive">
@@ -298,9 +376,10 @@
                         <p class="text-right mt-3">
                             <input checked="" type="checkbox"> I’ve read &amp; accept the <a href="#">terms &amp; conditions</a>
                         </p>
-                        <a href="#" class="btn btn-primary float-right">PROCEED TO CHECKOUT <i class="fa fa-check"></i></a>
+                        <button type="submit" name = "checkout" class="btn btn-lg btn-primary" style="float:right;">PROCEED TO CHECKOUT</button>
                         <div class="clearfix">
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
