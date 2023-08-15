@@ -71,6 +71,25 @@
         $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
 
     ?>
+    <?php
+    session_start();
+    $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
+    $FirstName = isset($_SESSION['FirstName']) ? $_SESSION['FirstName'] : '';
+    $LastName = isset($_SESSION['LastName']) ? $_SESSION['LastName'] : '';
+    $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : '';
+
+    if($userRole == "Customer"){
+        $getCustomerID = "SELECT Customer_ID FROM customer WHERE Username = '$UserName'";
+        $resultCustomerID = mysqli_query($conn, $getCustomerID);
+        $customerID = $resultCustomerID->fetch_assoc()['Customer_ID'];
+        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
+        $resultCartInfo = mysqli_query($conn, $getCartInfo);
+    }
+    $getEmpType = "SELECT EmployeeType FROM employee WHERE Username = '$UserName'";
+    $resultEmpType = mysqli_query($conn, $getEmpType);
+    ?>
+  
+
     <div class="page-header">
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
             <div class="container">
@@ -78,115 +97,202 @@
                     <img src="assets/img/logo_transparent.png" alt="">
                 </a>
 
-                <div class="collapse navbar-collapse" id="navbarcollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link location-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div class="location-img">
-                                    <img src="assets/img/location.png">
-                                    <p>Pick Store Location</p>
-                                </div> 
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?php
-                                foreach ($storeNames as $storeName) {
-                                    echo '<a class="dropdown-item" href="#">' . $storeName . '</a>';
-                                }
-                                ?>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a href="shop.php" class="nav-link">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="register.php" class="nav-link">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="login.php" class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item dropdown">
+                
+                <?php
+                if(empty($UserName)){
+                    echo '
+                        <div class="collapse navbar-collapse" id="navbarcollapse">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a href="register.php" class="nav-link">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="login.php" class="nav-link">Login</a>
+                                </li>
+                            </ul>
+                        </div>';
+
+                } else if($userRole == "Customer"){
+                    echo '
+                    <div class="collapse navbar-collapse" id="navbarcollapse">
+                        <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                            <a class="nav-link" href="setting.php">
-                                <div class="avatar-header"><img src="assets/img/user.png"></div> John Doe
-                            </a>
-                          </li>
-                          </li>
-                        <li class="nav-item dropdown">
-                            <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"></span>
-                            </a>
-                            <div class="dropdown-menu shopping-cart">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Your Cart</div>
-                                    </li>
-                                    <li>
-                                        <div class="shopping-cart-list">
-                                            <div class="media">
-                                                <img class="d-flex mr-3" src="assets/img/user.png" width="60">
-                                                <div class="media-body">
-                                                    <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                                    <p class="price">
-                                                        <span class="discount text-muted">Rp. 700.000</span>
-                                                        <span>Rp. 100.000</span>
-                                                    </p>
-                                                    <p class="text-muted">Qty: 1</p>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <img class="d-flex mr-3" src="assets/img/user.png" width="60">
-                                                <div class="media-body">
-                                                    <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                                    <p class="price">
-                                                        <span class="discount text-muted">Rp. 700.000</span>
-                                                        <span>Rp. 100.000</span>
-                                                    </p>
-                                                    <p class="text-muted">Qty: 1</p>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <img class="d-flex mr-3" src="assets/img/user.png" width="60">
-                                                <div class="media-body">
-                                                    <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                                    <p class="price">
-                                                        <span class="discount text-muted">Rp. 700.000</span>
-                                                        <span>Rp. 100.000</span>
-                                                    </p>
-                                                    <p class="text-muted">Qty: 1</p>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <img class="d-flex mr-3" src="assets/img/user.png" width="60">
-                                                <div class="media-body">
-                                                    <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                                    <p class="price">
-                                                        <span class="discount text-muted">Rp. 700.000</span>
-                                                        <span>Rp. 100.000</span>
-                                                    </p>
-                                                    <p class="text-muted">Qty: 1</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <a class="nav-link location-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="location-img">
+                                        <img src="assets/img/location.png">
+                                        <p>Pick Store Location</p>
+                                    </div> 
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                                    foreach ($storeNames as $storeName) {
+                                        echo '<a class="dropdown-item" href="#">' . $storeName . '</a>';
+                                    }
+                    echo       '</div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="shop.php" class="nav-link">Shop</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggles" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
+                                    <div style = "display:flex"><div class="avatar-header" style="margin-right: 10px;"><img src="assets/img/user.png"></div>';
+                                    echo '<p> '. $FirstName . ' ' . $LastName . '</p></div>';
+                                    echo '</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="transaction.php">Transactions History</a>
+                                        <a class="dropdown-item" href="setting.php">Settings</a>
+                                        <a class="dropdown-item" href="logout.php">Logout</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggles" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"></span>
+                                    </a>
+                                    <div class="dropdown-menu shopping-cart">
+                                        <ul>
+                                            <li>
+                                                <div class="drop-title">Your Cart</div>
+                                            </li>
+                                            <li>
+                                                <div class="shopping-cart-list">';
+                                if ($resultCartInfo->num_rows > 0) {
+                                    while ($row = $resultCartInfo->fetch_assoc()) {
+                                        $itemPrice = $row['ItemPrice'];
+                                        $itemName = $row['ItemName'];
+                                        $itemBrand = $row['ItemBrand'];
+                                        $itemPhoto = $row['ItemPhoto'];
+                                        $itemQty = $row['ItemQty'];
+                                        $totalPrice = $totalPrice + ($itemPrice * $itemQty);
+                                
+                                        echo '<div class="media">';
+                                        echo '<img class="d-flex mr-3" src="data:image/jpeg;base64,' . $itemPhoto . '" width="60">';
+                                        echo '<div class="media-body">';
+                                        echo '<h5><a href="javascript:void(0)">' . $itemBrand . ' ' . $itemName . '</a></h5>';
+                                        echo '<p class="price">';
+                                        echo '<span>Rs. ' . $itemPrice . '</span>';
+                                        echo '</p>';
+                                        echo '<p class="text-muted">Qty: ' . $itemQty . '</p>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                    }
+                                } else {
+                                    echo "Your Cart is empty";
+                                }
+                                
+                                echo '</div>
                                     </li>
                                     <li>
                                         <div class="drop-title d-flex justify-content-between">
-                                            <span>Total:</span>
-                                            <span class="text-primary"><strong>Rp. 2000.000</strong></span>
-                                        </div>
+                                            <span>Total:</span>';
+                                echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
+                                echo '</div>
                                     </li>
                                     <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
                                         <a href="cart.php" class="btn btn-secondary">View Cart</a>
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                                </div>
+                                </li>
+                                </ul>
+                                </div>';
+                                
+                }else{
+                    $empType = $resultEmpType->fetch_assoc()['EmployeeType'];
+                    echo $empType;
+                    echo '
+                    <div class="collapse navbar-collapse" id="navbarcollapse">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a href="shop.php" class="nav-link">Shop</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggles" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
+                                    <div style = "display:flex"><div class="avatar-header" style="margin-right: 10px;"><img src="assets/img/user.png"></div>';
+                                    echo '<p> '. $FirstName . ' ' . $LastName . '</p></div>';
+                                    echo '</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">';
 
+                                    if($empType == "HR_Management"){
+                                        echo '<a class="dropdown-item" href="empAssign.php">Assign Employee</a>
+                                            <a class="dropdown-item" href="empMark.php">Mark Employee</a>
+                                            <a class="dropdown-item" href="empSalary.php">Employee Salary</a>
+                                            <a class="dropdown-item" href="salaryAssign.php">Employee Type</a>';
+                                    }else if($empType == "StockingTeam"){
+                                        echo '<a class="dropdown-item" href="stock.php">Stock</a>';
+                                    }else if($empType == "StockManagement"){
+                                        echo '<a class="dropdown-item" href="addItems.php">Add Items to Store</a>
+                                            <a class="dropdown-item" href="stock.php">Stock</a>';
+                                    }
+
+                                    echo '
+                                        <a class="dropdown-item" href="settings.php">Account Settings</a>
+                                        <a class="dropdown-item" href="logout.php">Logout</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggles" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"></span>
+                                    </a>
+                                    <div class="dropdown-menu shopping-cart">
+                                        <ul>
+                                            <li>
+                                                <div class="drop-title">Your Cart</div>
+                                            </li>
+                                            <li>
+                                                <div class="shopping-cart-list">';
+                                if ($resultCartInfo->num_rows > 0) {
+                                    while ($row = $resultCartInfo->fetch_assoc()) {
+                                        $itemPrice = $row['ItemPrice'];
+                                        $itemName = $row['ItemName'];
+                                        $itemBrand = $row['ItemBrand'];
+                                        $itemPhoto = $row['ItemPhoto'];
+                                        $itemQty = $row['ItemQty'];
+                                        $totalPrice = $totalPrice + ($itemPrice * $itemQty);
+                                
+                                        echo '<div class="media">';
+                                        echo '<img class="d-flex mr-3" src="data:image/jpeg;base64,' . $itemPhoto . '" width="60">';
+                                        echo '<div class="media-body">';
+                                        echo '<h5><a href="javascript:void(0)">' . $itemBrand . ' ' . $itemName . '</a></h5>';
+                                        echo '<p class="price">';
+                                        echo '<span>Rs. ' . $itemPrice . '</span>';
+                                        echo '</p>';
+                                        echo '<p class="text-muted">Qty: ' . $itemQty . '</p>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                    }
+                                } else {
+                                    echo "Your Cart is empty";
+                                }
+                                
+                                echo '</div>
+                                    </li>
+                                    <li>
+                                        <div class="drop-title d-flex justify-content-between">
+                                            <span>Total:</span>';
+                                echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
+                                echo '</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
+                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                        <a href="checkout.php" class="btn btn-primary">Checkout</a>
+                                    </li>
+                                </ul>
+                                </div>
+                                </li>
+                                </ul>
+                                </div>';
+                }
+                      
+                ?>
+                      
             </div>
         </nav>
     </div>
+    <?php
+        if(empty($UserName)){
+            header("Location: index.php");
+        }
+    ?>
     <div id="page-content" class="page-content">
         <div class="banner">
             <div class="jumbotron jumbotron-bg text-center rounded-0 cover-img">

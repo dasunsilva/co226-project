@@ -556,9 +556,6 @@ footer .copyright {
   animation: fadeInUp 0.4s both;
 }
 
-.dropdown-toggle::after {
-  width: 100px !important;
-}
 
 @keyframes fadeInUp {
   from {
