@@ -1,4 +1,4 @@
-function updateCart(itemDescription, itemID, itemName, itemBrand, itemPrice, itemPhoto, customerID) {
+function updateCart(itemDescription, itemID, itemName, itemBrand, itemPrice, customerID, itemPhoto) {
     var cartItemDiv = document.createElement('div');
     cartItemDiv.classList.add('media');
 
@@ -31,9 +31,8 @@ function updateCart(itemDescription, itemID, itemName, itemBrand, itemPrice, ite
     var shoppingCartList = document.querySelector('.shopping-cart-list');
 
     shoppingCartList.appendChild(cartItemDiv);
-
     console.log('Item added to the cart: ' + itemName);
-    console.log(customerID);
+    console.log('Customer ID:'+customerID);
 
     const formData = new FormData();
       formData.append('Customer_ID', customerID);

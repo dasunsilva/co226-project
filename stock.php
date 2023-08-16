@@ -186,7 +186,7 @@
                                         echo '</div>';
                                     }
                                 } else {
-                                    echo "Your Cart is empty";
+                                    echo "";
                                 }
                                 
                                 echo '</div>
