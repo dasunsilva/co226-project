@@ -60,15 +60,7 @@
         $getBeverage = "SELECT Item_ID, ItemPrice, ItemName, ItemBrand, ItemQuentityAvailable, ItemPhoto FROM grocery WHERE ItemDescription = 'Beverage'";
         $resultBeverages = mysqli_query($conn, $getBeverage);
 
-        $customerID = 1;
-
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
-
         $totalPrice = 0;
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
-
 
     ?>
 
@@ -200,13 +192,11 @@
                                 
                 }else{
                     $empType = $resultEmpType->fetch_assoc()['EmployeeType'];
-                    echo $empType;
+                    header("Location:index.php");
                     echo '
                     <div class="collapse navbar-collapse" id="navbarcollapse">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a href="shop.php" class="nav-link">Shop</a>
-                            </li>
+                            
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggles" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
                                     <div style = "display:flex"><div class="avatar-header" style="margin-right: 10px;"><img src="assets/img/user.png"></div>';
@@ -337,7 +327,7 @@
                                                                 <div class="card-price">
                                                                     <span class="reguler">Rs.' . $itemPrice . '/kg</span>
                                                                 </div>
-                                                                <a href="#" class="btn btn-block btn-primary" id="' . $itemID . '" onclick="updateCart(\'Vegetable\', \'' . $itemID . '\', \'' . $itemName . '\', \'' . $itemBrand . '\', \'' . $itemPrice . '\', \'' . $itemPhoto . '\')">
+                                                                <a href="#" class="btn btn-block btn-primary" id="' . $itemID . '" onclick="updateCart(\'Vegetable\', \'' . $itemID . '\', \'' . $itemName . '\', \'' . $itemBrand . '\', \'' . $itemPrice . '\', \'' . $itemPhoto . '\', \'' . $customerID . '\')">
                                                                     Add to Cart
                                                                 </a>
                                                             </div>

@@ -264,14 +264,14 @@
                                 </div>';
                                 
                 }else{
+                    header("Location: index.php");
+
                     $empType = $resultEmpType->fetch_assoc()['EmployeeType'];
-                    echo $empType;
+                    
                     echo '
                     <div class="collapse navbar-collapse" id="navbarcollapse">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a href="shop.php" class="nav-link">Shop</a>
-                            </li>
+                            
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggles" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
                                     <div style = "display:flex"><div class="avatar-header" style="margin-right: 10px;"><img src="assets/img/user.png"></div>';

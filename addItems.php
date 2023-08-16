@@ -70,7 +70,6 @@
 
     ?>
     <?php
-    session_start();
     $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
     $FirstName = isset($_SESSION['FirstName']) ? $_SESSION['FirstName'] : '';
     $LastName = isset($_SESSION['LastName']) ? $_SESSION['LastName'] : '';
@@ -99,7 +98,7 @@
                 
                 <?php
                 if(empty($UserName)){
-                    echo '
+                    echo'
                         <div class="collapse navbar-collapse" id="navbarcollapse">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
@@ -112,6 +111,7 @@
                         </div>';
 
                 } else if($userRole == "Customer"){
+                    header("Location: index.php");
                     echo '
                     <div class="collapse navbar-collapse" id="navbarcollapse">
                         <ul class="navbar-nav ml-auto">
@@ -199,83 +199,52 @@
                     $empType = $resultEmpType->fetch_assoc()['EmployeeType'];
                     echo '
                     <div class="collapse navbar-collapse" id="navbarcollapse">
-                        <ul class="navbar-nav ml-auto">
+                        <ul class="navbar-nav ml-auto">';
+                        if($empType == "HR_Management"){
+                            echo '
                             <li class="nav-item">
-                                <a href="shop.php" class="nav-link">Shop</a>
+                                <a class="nav-link" href="empAssign.php">Assign Employee</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="empMark.php">Mark Employee</a>
+                            
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="empSalary.php">Employee Salary</a>
+                            
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="salaryAssign.php">Employee Type</a>
+
+                            </li>';
+                        }else if($empType == "StockingTeam"){
+                            echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="stock.php">Stock</a>
+                            </li>
+                            ';
+                        }else if($empType == "StockManagement"){
+                            echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="addItems.php">Add Items to Store</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="stock.php">Stock</a>
+                            </li>
+                                ';
+                        }
+                        echo '
+                            
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggles" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "display: flex; align-items:baseline;"  >
                                     <div style = "display:flex"><div class="avatar-header" style="margin-right: 10px;"><img src="assets/img/user.png"></div>';
                                     echo '<p> '. $FirstName . ' ' . $LastName . '</p></div>';
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">';
-
-                                    if($empType == "HR_Management"){
-                                        echo '<a class="dropdown-item" href="empAssign.php">Assign Employee</a>
-                                            <a class="dropdown-item" href="empMark.php">Mark Employee</a>
-                                            <a class="dropdown-item" href="empSalary.php">Employee Salary</a>
-                                            <a class="dropdown-item" href="salaryAssign.php">Employee Type</a>';
-                                    }else if($empType == "StockingTeam"){
-                                        echo '<a class="dropdown-item" href="stock.php">Stock</a>';
-                                    }else if($empType == "StockManagement"){
-                                        echo '<a class="dropdown-item" href="addItems.php">Add Items to Store</a>
-                                            <a class="dropdown-item" href="stock.php">Stock</a>';
-                                    }
-
                                     echo '
                                         <a class="dropdown-item" href="settings.php">Account Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a href="javascript:void(0)" class="nav-link dropdown-toggles" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary"></span>
-                                    </a>
-                                    <div class="dropdown-menu shopping-cart">
-                                        <ul>
-                                            <li>
-                                                <div class="drop-title">Your Cart</div>
-                                            </li>
-                                            <li>
-                                                <div class="shopping-cart-list">';
-                                if ($resultCartInfo->num_rows > 0) {
-                                    while ($row = $resultCartInfo->fetch_assoc()) {
-                                        $itemPrice = $row['ItemPrice'];
-                                        $itemName = $row['ItemName'];
-                                        $itemBrand = $row['ItemBrand'];
-                                        $itemPhoto = $row['ItemPhoto'];
-                                        $itemQty = $row['ItemQty'];
-                                        $totalPrice = $totalPrice + ($itemPrice * $itemQty);
-                                
-                                        echo '<div class="media">';
-                                        echo '<img class="d-flex mr-3" src="data:image/jpeg;base64,' . $itemPhoto . '" width="60">';
-                                        echo '<div class="media-body">';
-                                        echo '<h5><a href="javascript:void(0)">' . $itemBrand . ' ' . $itemName . '</a></h5>';
-                                        echo '<p class="price">';
-                                        echo '<span>Rs. ' . $itemPrice . '</span>';
-                                        echo '</p>';
-                                        echo '<p class="text-muted">Qty: ' . $itemQty . '</p>';
-                                        echo '</div>';
-                                        echo '</div>';
-                                    }
-                                } else {
-                                    echo "Your Cart is empty";
-                                }
-                                
-                                echo '</div>
-                                    </li>
-                                    <li>
-                                        <div class="drop-title d-flex justify-content-between">
-                                            <span>Total:</span>';
-                                echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
-                                echo '</div>
-                                    </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
-                                        <a href="checkout.php" class="btn btn-primary">Checkout</a>
-                                    </li>
-                                </ul>
-                                </div>
                                 </li>
                                 </ul>
                                 </div>';
