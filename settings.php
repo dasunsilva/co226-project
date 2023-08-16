@@ -61,7 +61,7 @@
                             WHERE Username = '$username'";
             
             if (mysqli_query($conn, $updateQuery)) {
-                header("Location: setting.php");
+                header("Location: settings.php");
                 exit;
             } else {
                 echo '<script>alert("Error updating record: ' . mysqli_error($conn) . '");</script>';
@@ -185,8 +185,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
@@ -280,7 +281,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xs-12 col-sm-6">
                         <h5 class="mb-3">ACCOUNT DETAILS</h5>
-                        <form action="setting.php" class="bill-detail" method = "POST">
+                        <form action="settings.php" class="bill-detail" method = "POST">
                         <?php
                             $getDetails = "SELECT EmployeePhoneNumber, EmployeeAddress, FirstName, MiddleName, LastName, UserName, Password FROM employee WHERE Username = '$UserName'";
                             $resultDetails = mysqli_query($conn, $getDetails); 

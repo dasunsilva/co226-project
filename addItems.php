@@ -185,8 +185,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>

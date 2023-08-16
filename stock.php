@@ -196,8 +196,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
@@ -305,8 +306,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
+                                    <?php
                                         if ($resultVegetables->num_rows > 0) {
+                                            $items = array();
+
                                             while ($row = $resultVegetables->fetch_assoc()) {
                                                 $itemId = $row['Item_ID'];
                                                 $itemPrice = $row['ItemPrice'];
@@ -315,32 +318,53 @@
                                                 $itemQtyAvailable = $row['ItemQuentityAvailable'];
                                                 $itemPhoto = base64_encode($row["ItemPhoto"]);
 
-                                                echo '<tr>';
+                                                $items[] = array(
+                                                    'id' => $itemId,
+                                                    'brand' => $itemBrand,
+                                                    'name' => $itemName,
+                                                    'qty' => $itemQtyAvailable,
+                                                    'price' => $itemPrice,
+                                                    'photo' => $itemPhoto
+                                                );
+                                            }
+
+                                            usort($items, function ($a, $b) {
+                                                return $a['qty'] - $b['qty'];
+                                            });
+
+                                            foreach ($items as $item) {
+                                                echo '<tr';
+                                                
+                                                if ($item['qty'] < 50) {
+                                                    echo ' style = "color: red;';
+                                                }
+                                                
+                                                echo '">';
                                                 echo '<td>';
-                                                echo '<img class="d-flex mr-3" src="data:image/jpeg;base64,' . $itemPhoto . '" width="80%" style = "height:80px;">';
-                                                echo '</td>';
+                                                echo '<img class="d-flex mr-3" src="data:image/jpeg;base64,' . $item['photo'] . '" width="80%" style="height:80px;">';
                                                 echo '</td>';
                                                 echo '<td style="vertical-align: middle; font-size: 16px; text-align:center;">';
-                                                echo $itemId;
+                                                echo $item['id'];
                                                 echo '</td>';
                                                 echo '<td style="vertical-align: middle; font-size: 16px;">';
-                                                echo $itemBrand . ' ' . $itemName . ' <br>';
+                                                echo $item['brand'] . ' ' . $item['name'] . ' <br>';
                                                 echo '<small>1000g</small>';
                                                 echo '<td style="vertical-align: middle; font-size: 16px;">';
-                                                echo 'Rs. ' . $itemPrice . '';
+                                                echo 'Rs. ' . $item['price'] . '';
                                                 echo '</td>';
-                                                echo '<td style="vertical-align: middle; font-size: 16px; text-align: center;">';
-                                                echo $itemQtyAvailable;
+                                                echo '<td style="vertical-align: middle; font-size: 16px; text-align: center">';
+                                                echo $item['qty'];
                                                 echo '</td>';
                                                 echo '<td style="vertical-align: middle;">';
                                                 echo '<div class="form-group" style="margin-bottom: 0;">';
-                                                echo '<input class="form-control" name="newQty[' . $itemId . ']" placeholder="" type="number" value = "'.$itemQtyAvailable.'">';
+                                                echo '<input class="form-control" name="newQty[' . $item['id'] . ']" placeholder="" type="number" value="' . $item['qty'] . '">';
                                                 echo '</div>';
                                                 echo '<td>';
                                                 echo '</tr>';
                                             }
                                         }
                                         ?>
+
                                     </tbody>
                                 </table>
                                 <div class="col text-right total-div">

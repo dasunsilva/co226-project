@@ -179,8 +179,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
@@ -263,8 +264,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
@@ -512,7 +514,7 @@
                                                                     <p>' . $itemBrand . ' ' . $itemName . '</p>
                                                                 </h4>
                                                                 <div class="card-price">
-                                                                    <span class="reguler">Rs.' . $itemPrice . '/kg</span>
+                                                                    <span class="reguler">Rs.' . $itemPrice . '</span>
                                                                 </div>
                                                                 <a href="#" class="btn btn-block btn-primary" id="' . $itemID . '" onclick="updateCart(\'HouseHold\', \'' . $itemID . '\', \'' . $itemName . '\', \'' . $itemBrand . '\', \'' . $itemPrice . '\', \'' . $customerID . '\', \'' . $itemPhoto . '\')">
                                                                     Add to Cart
@@ -559,7 +561,7 @@
                                                                     <p>' . $itemBrand . ' ' . $itemName . '</p>
                                                                 </h4>
                                                                 <div class="card-price">
-                                                                    <span class="reguler">Rs.' . $itemPrice . '/kg</span>
+                                                                    <span class="reguler">Rs.' . $itemPrice . '</span>
                                                                 </div>
                                                                 <a href="#" class="btn btn-block btn-primary" id="' . $itemID . '" onclick="updateCart(\'Dairy\', \'' . $itemID . '\', \'' . $itemName . '\', \'' . $itemBrand . '\', \'' . $itemPrice . '\', \'' . $customerID . '\', \'' . $itemPhoto . '\')">
 
@@ -607,7 +609,7 @@
                                                                     <p>' . $itemBrand . ' ' . $itemName . '</p>
                                                                 </h4>
                                                                 <div class="card-price">
-                                                                    <span class="reguler">Rs.' . $itemPrice . '/kg</span>
+                                                                    <span class="reguler">Rs.' . $itemPrice . '</span>
                                                                 </div>
                                                                 <a href="#" class="btn btn-block btn-primary" id="' . $itemID . '" onclick="updateCart(\'Beverage\', \'' . $itemID . '\', \'' . $itemName . '\', \'' . $itemBrand . '\', \'' . $itemPrice . '\', \'' . $customerID . '\', \'' . $itemPhoto . '\')">
 

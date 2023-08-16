@@ -140,7 +140,7 @@
             $today = date("Y-m-d");
             $insertQuery = "INSERT INTO customer_order (Customer_ID,OrderDetails,SubTotal,OrderDate) VALUES ('$customerID','$orderDetailsJSON', '$subTotalTemp','$today')";
             if(mysqli_query($conn, $insertQuery)){
-                header("Location: checkout.php");
+                header("Location: shop.php");
             }
         }
 
@@ -246,8 +246,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
@@ -332,8 +333,9 @@
                                 echo '<span class="text-primary"><strong>Rs. ' . $totalPrice . '</strong></span>';
                                 echo '</div>
                                     </li>
-                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                        <a href="cart.php" class="btn btn-secondary">View Cart</a>
+                                    <li class="d-flex justify-content-between pl-3 pr-3 pt-3" style="display: flex; flex-direction: row-reverse;">
+
+                                        
                                         <a href="checkout.php" class="btn btn-primary">Checkout</a>
                                     </li>
                                 </ul>
