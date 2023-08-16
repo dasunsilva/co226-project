@@ -40,19 +40,7 @@
             $storeNames[] = $row['storeName'];
         }
 
-        $customerID = 1;
-
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
-
-        $getCartInfo2 = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo2 = mysqli_query($conn, $getCartInfo2);
-
-        $totalPrice = 0;
-        $subTotal = 0;
-
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
+        
     ?>
 
 <?php
@@ -68,6 +56,10 @@
         $customerID = $resultCustomerID->fetch_assoc()['Customer_ID'];
         $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
         $resultCartInfo = mysqli_query($conn, $getCartInfo);
+        $getCartInfo2 = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
+        $resultCartInfo2 = mysqli_query($conn, $getCartInfo2);
+        $totalPrice = 0;
+        $subTotal = 0;
     }
     $getEmpType = "SELECT EmployeeType FROM employee WHERE Username = '$UserName'";
     $resultEmpType = mysqli_query($conn, $getEmpType);
@@ -124,7 +116,6 @@
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                        <a class="dropdown-item" href="setting.php">Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
                                 </li>

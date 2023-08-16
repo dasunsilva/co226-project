@@ -133,7 +133,6 @@
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                        <a class="dropdown-item" href="setting.php">Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
                                 </li>
@@ -318,7 +317,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -363,7 +362,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -411,7 +410,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -459,7 +458,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -506,7 +505,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -553,7 +552,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">
@@ -601,7 +600,7 @@
                                     $htmlTemplate = '<div class="item">
                                                         <div class="card card-product">
                                                             <div class="card-badge">
-                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 300px">
+                                                                <img src="data:image/jpeg;base64,' . $itemPhoto . '" alt="Card image 2" class="card-img-top" style = "height: 250px">
                                                             </div>
                                                             <div class="card-body">
                                                                 <h4 class="card-title">

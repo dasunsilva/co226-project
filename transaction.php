@@ -132,7 +132,6 @@
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                        <a class="dropdown-item" href="setting.php">Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
                                 </li>
@@ -292,7 +291,7 @@
                         Your Transactions
                     </h1>
                     <p class="lead">
-                        Save time and leave the groceries to us.
+                        YOur past transactions
                     </p>
                 </div>
             </div>

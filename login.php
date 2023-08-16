@@ -125,7 +125,7 @@
                     echo       '</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                <a class="dropdown-item" href="setting.php">Settings</a>
+                                <a class="dropdown-item" href="settings.php">Settings</a>
                                 <a class="dropdown-item" href="logout.php">Logout</a>
                             </div>
                           </li>

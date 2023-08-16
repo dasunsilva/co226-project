@@ -142,7 +142,6 @@
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                        <a class="dropdown-item" href="setting.php">Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
                                 </li>
@@ -273,10 +272,10 @@
             <div class="jumbotron jumbotron-bg text-center rounded-0 cover-img">
                 <div class="container">
                     <h1 class="pt-5">
-                        Stock Management
+                        Assign Employee
                     </h1>
                     <p class="lead">
-                        Check and Restock
+                        Place to assign employee to store and employee role
                     </p>
                 </div>
             </div>

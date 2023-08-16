@@ -40,21 +40,32 @@
             $storeNames[] = $row['storeName'];
         }
 
+    
+        
+    ?>
+<?php
+    session_start();
+    $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
+    $FirstName = isset($_SESSION['FirstName']) ? $_SESSION['FirstName'] : '';
+    $LastName = isset($_SESSION['LastName']) ? $_SESSION['LastName'] : '';
+    $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : '';
 
-        $customerID = 1;
-
+    if($userRole == "Customer"){
+        $getCustomerID = "SELECT Customer_ID FROM customer WHERE Username = '$UserName'";
+        $resultCustomerID = mysqli_query($conn, $getCustomerID);
+        $customerID = $resultCustomerID->fetch_assoc()['Customer_ID'];
         $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
         $resultCartInfo = mysqli_query($conn, $getCartInfo);
-
-        $totalPrice = 0;
-
+        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
+        $resultCartInfo = mysqli_query($conn, $getCartInfo);
         $getCartInfo2 = "SELECT ItemPrice, ItemName, ItemBrand, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
         $resultCartInfo2 = mysqli_query($conn, $getCartInfo2);
-
         $getCartInfo3 = "SELECT Item_ID, ItemQty, ItemName, ItemBrand, ItemPrice FROM cart WHERE Customer_ID = '$customerID'";
         $resultCartInfo3 = mysqli_query($conn, $getCartInfo3);
         
-        $totalPrice = 0;
+    }
+
+    $totalPrice = 0;
         $subTotal = 0;
 
         if (isset($_POST['checkout'])) {
@@ -134,23 +145,6 @@
         }
 
 
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
-    ?>
-<?php
-    session_start();
-    $UserName = isset($_SESSION['UserName']) ? $_SESSION['UserName'] : '';
-    $FirstName = isset($_SESSION['FirstName']) ? $_SESSION['FirstName'] : '';
-    $LastName = isset($_SESSION['LastName']) ? $_SESSION['LastName'] : '';
-    $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : '';
-
-    if($userRole == "Customer"){
-        $getCustomerID = "SELECT Customer_ID FROM customer WHERE Username = '$UserName'";
-        $resultCustomerID = mysqli_query($conn, $getCustomerID);
-        $customerID = $resultCustomerID->fetch_assoc()['Customer_ID'];
-        $getCartInfo = "SELECT ItemPrice, ItemName, ItemBrand, ItemPhoto, ItemQty FROM cart WHERE Customer_ID = '$customerID'";
-        $resultCartInfo = mysqli_query($conn, $getCartInfo);
-    }
     $getEmpType = "SELECT EmployeeType FROM employee WHERE Username = '$UserName'";
     $resultEmpType = mysqli_query($conn, $getEmpType);
     mysqli_close($conn);
@@ -206,7 +200,6 @@
                                     echo '</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="transaction.php">Transactions History</a>
-                                        <a class="dropdown-item" href="setting.php">Settings</a>
                                         <a class="dropdown-item" href="logout.php">Logout</a>
                                     </div>
                                 </li>
